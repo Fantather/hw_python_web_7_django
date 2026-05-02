@@ -22,7 +22,7 @@ class RestrictedPathView(View):
     def get(self, request):
         ip_address = request.META.get('REMOTE_ADDR')
         cache_key = f'rate_limit_{ip_address}'
-        request_count = cache.get(cache_key)
+        request_count = cache.get(cache_key, 1)
 
         return HttpResponse(f"Вы сделали {request_count} запросов из 5")
 
@@ -72,10 +72,15 @@ class DataGetView(View):
         raise Http404("Ключ не найден")
 
 class DataUpdateView(View):
-    def post(self, request, key:str, value):
-        data_dict[key] = value
-            
-        return JsonResponse({
-            "message": "Словарь успешно обновлён", 
-            "current_state": data_dict
-        })
+    def post(self, request):
+        try:
+            new_data = json.loads(request.body)
+            data_dict.update(new_data)
+
+            return JsonResponse({
+                "message": "Словарь успешно обновлён", 
+                "current_state": data_dict
+            })
+        
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Ожидается валидный JSON"}, status=400)
