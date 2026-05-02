@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Все задачи{% endblock %}
+
+{% block content %}
+    <h1>Список задач</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Заголовок</th>
+                <th>Описание</th>
+                <th>Начало</th>
+                <th>Конец</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td>{{ task.title }}</td>
+                <td>{{ task.text }}</td>
+                <td>{{ task.start_date }}</td>
+                <td>{{ task.end_date }}</td>
+                <td>
+                    <form action="{% url 'task_delete' task.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">Задач пока нет.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

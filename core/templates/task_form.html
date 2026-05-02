@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Новая задача{% endblock %}
+
+{% block content %}
+    <h1>Создать новую задачу</h1>
+    
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label>Заголовок:</label><br>
+            <input type="text" name="title" required>
+        </p>
+        <p>
+            <label>Текст задачи:</label><br>
+            <textarea name="text" required></textarea>
+        </p>
+        <p>
+            <label>Дата начала:</label><br>
+            <input type="date" name="start_date" required>
+        </p>
+        <p>
+            <label>Дата завершения:</label><br>
+            <input type="date" name="end_date" required>
+        </p>
+        <button type="submit">Сохранить задачу</button>
+    </form>
+{% endblock %}

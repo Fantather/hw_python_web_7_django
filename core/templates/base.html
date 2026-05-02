@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Управление задачами{% endblock %}</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .error { color: red; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'task_list' %}">Список задач</a> | 
+        <a href="{% url 'task_create' %}">Добавить задачу</a>
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>
